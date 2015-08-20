@@ -11,7 +11,7 @@ public class Exec{
     private ArrayList<String> filesList = new ArrayList<>();
     private final String user = "root";
     private String host;
-    private final String remoteDir = "/mnt/ufs/media/mmcblk0p1/";
+    private final String remoteDir = "/mnt/ufs/media/mmcblk0p1/archive/";
     private String prefix;
     private JSch jsch;
     private Session session;
@@ -39,6 +39,7 @@ public class Exec{
                 downloadFile(rFile);
             }
             closeJSCH();
+
         } else {
             throw new IllegalAccessException("Ip addr == null || empty");
         }
@@ -149,7 +150,7 @@ public class Exec{
     private void initFilesList() {
         try{
             Channel channel=session.openChannel("exec");
-            String command = "ls /mnt/ufs/media/mmcblk0p1/";
+            String command = "ls " + remoteDir;
             ((ChannelExec)channel).setCommand(command);
             channel.setInputStream(null);
             ((ChannelExec)channel).setErrStream(System.err);
@@ -297,6 +298,10 @@ public class Exec{
                 return null;  // cancel
             }
         }
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 
     public void setHost(String host) {

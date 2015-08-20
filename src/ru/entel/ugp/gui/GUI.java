@@ -2,11 +2,9 @@ package ru.entel.ugp.gui;
 
 import ru.entel.ugp.owen.ssh.Exec;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.net.URL;
 
 public class GUI extends JFrame {
     public final static String TITLE = "УГП ENTEL";
@@ -26,12 +24,16 @@ public class GUI extends JFrame {
     }
 
     private void setIcon() {
-        Image img = null;
-        try {
-            img = ImageIO.read(new FileInputStream("res/logo.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        Image img = null;
+//        try {
+//            img = ImageIO.read(new FileInputStream("res/icon.png"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        this.setIconImage(img);
+        URL url = getClass().getResource("/img/icon.png");
+        ImageIcon icon = new ImageIcon(url);
+        Image img = icon.getImage();
         this.setIconImage(img);
     }
 }

@@ -3,24 +3,23 @@ package ru.entel.ugp.gui;
 import com.jcraft.jsch.JSchException;
 import ru.entel.ugp.owen.ssh.Exec;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainWindow extends WindowPanel {
-    private final String ipDefault = "192.168.19.214";
+    private final String ipDefault = "192.168.19.102";
     private JButton downloadLogs;
     private JButton openMonitoring;
     private JLabel currentIP;
@@ -72,14 +71,11 @@ public class MainWindow extends WindowPanel {
     }
 
     private void addLogo() {
-        try {
-            BufferedImage logo = ImageIO.read(new File("res/logo.jpg"));
-            JLabel picLabel = new JLabel(new ImageIcon(logo));
-            picLabel.setBounds(300, 240, 150, 45);
-            add(picLabel);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        URL url = getClass().getResource("/img/logo_min.png");
+        ImageIcon icon = new ImageIcon(url);
+        JLabel picLabel = new JLabel(icon);
+        picLabel.setBounds(300, 240, 150, 45);
+        add(picLabel);
     }
 
     public void disableAll() {
@@ -116,7 +112,7 @@ public class MainWindow extends WindowPanel {
             try {
                 disableAll();
                 exec.downloadFiles();
-
+                Desktop.getDesktop().open(new File(exec.getPrefix()));
                 JOptionPane.showMessageDialog(new JFrame(), "Журнад данных успешно скачан", "Сообщение", JOptionPane.INFORMATION_MESSAGE);
             } catch (JSchException e) {
                JOptionPane.showMessageDialog(new JFrame(), "Нет связи с устройством", "Ошибка", JOptionPane.ERROR_MESSAGE);
